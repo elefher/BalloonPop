@@ -19,6 +19,7 @@ class PlayScene extends Phaser.Scene {
 		this.sky.setScale(3, 3);
 
 		this.balloons = [];
+		this.duration = 0;
 		this.clickDuration = 0;
 		this.totalClickDuration = 0;
 
@@ -82,20 +83,22 @@ class PlayScene extends Phaser.Scene {
 		});
 	}
 
-	gameOver() {
-		this.cameras.main.shake(500);
-		this.balloons.forEach(b => this.killBalloon(b));
-		this.score = 0;
-		this.startGame();
+	// gameOver() {
+	// 	this.cameras.main.shake(500);
+	// 	this.balloons.forEach(b => this.killBalloon(b));
+	// 	this.score = 0;
+	// 	this.startGame();
+	// }
+
+	downDuration(pointer){
+		console.log(pointer);
 	}
 
 	update(time, delta) {
-		// this.balloons.forEach(b => {
-		// 	b.update(time, delta);
-		// });
 		if(this.balloons[0]){
+			this.duration = this.balloons[0].lastActivePointerDuration;
 			this.balloons[0].update(time, delta);
 		}
-		this.scoreText.setText(' Click Duration: ' + this.clickDuration);
+		this.scoreText.setText(' Click Duration: ' + this.duration);
 	}
 }

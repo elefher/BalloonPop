@@ -1,18 +1,17 @@
 class Balloon extends Phaser.GameObjects.Sprite {
-	constructor(scene, x,y, key, maxScale) {
+	constructor(scene, x,y, key) {
 		super(scene, x,y, key);
 		scene.add.existing(this);
 		this.setInteractive();
-		this.blowBallon = false;
 		this.scaleVal = 1;
-		this.scaleMax = maxScale;
+		this.scaleMax = 2;
+		this.lastActivePointerDuration = 0;
 
-		this.on('pointerdown', e => {
-			this.blowBallon = true;
-		});
+		// this.on('pointerdown', e => {
+		// 	this.scene.downDuration(e);
+		// });
 
 		this.on('pointerup', e => {
-			this.blowBallon = false;
 			this.scene.getDuration(e);
 		});
 
@@ -20,21 +19,9 @@ class Balloon extends Phaser.GameObjects.Sprite {
 		this.angleDir = -1 + Math.round(Math.random())*2;	// 1 or -1
 	}
 
-	// update(time,delta) {
-	// 	if(this.y<-64) return this.scene.gameOver();
-	//
-	// 	this.x += this.angle/20;
-	// 	if(this.x<64) this.x = 64;
-	// 	if(this.x>(this.scene.sys.game.config.width-64)) this.x = this.scene.sys.game.config.width-64;
-	//
-	// 	this.angle += this.angleDir/5;
-	// 	if(this.angle>25 || this.angle<-25) this.angleDir *= -1;
-	//
-	// 	this.y -= this.speed;
-	// }
-
 	update(time,delta) {
-		if(this.blowBallon){
+		if(window.game.input.activePointer.isDown){
+			this.lastActivePointerDuration = Math.round(time - window.game.input.activePointer.downTime);
 			this.scaleVal += 0.005;
 			this.scene.blowBallon(this, this.scaleVal);
 		}
