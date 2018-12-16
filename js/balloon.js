@@ -6,12 +6,15 @@ class Balloon extends Phaser.GameObjects.Sprite {
 		this.scaleVal = 1;
 		this.scaleMax = 2;
 		this.lastActivePointerDuration = 0;
+		this.touched = false;
 
-		// this.on('pointerdown', e => {
-		// 	this.scene.downDuration(e);
-		// });
+		this.on('pointerdown', e => {
+			this.touched = true;
+		});
 
 		this.on('pointerup', e => {
+			this.touched = false;
+			this.scene.saveClickDuration();
 			this.scene.getDuration(e);
 		});
 
@@ -20,7 +23,7 @@ class Balloon extends Phaser.GameObjects.Sprite {
 	}
 
 	update(time,delta) {
-		if(window.game.input.activePointer.isDown){
+		if(window.game.input.activePointer.isDown && this.touched){
 			this.lastActivePointerDuration = Math.round(time - window.game.input.activePointer.downTime);
 			this.scaleVal += 0.005;
 			this.scene.blowBallon(this, this.scaleVal);

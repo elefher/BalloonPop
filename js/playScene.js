@@ -20,10 +20,13 @@ class PlayScene extends Phaser.Scene {
 
 		this.balloons = [];
 		this.duration = 0;
+		this.durations = [];
 		this.clickDuration = 0;
 		this.totalClickDuration = 0;
+		this.startPointArrayText = 150;
 
-		this.scoreText = this.add.text(50, 50, '', {fontFamily: 'Arial Black', fontSize: 74, color: '#c51b7d'});
+		// this.scoreText = this.add.text(50, 50, '', {fontFamily: 'Arial Black', fontSize: 74, color: '#c51b7d'});
+		this.scoreText = this.getNewScoreText(50, 50);
 		this.scoreText.setStroke('#de77ae', 5);
 		this.scoreText.setShadow(2, 2, '#333333', 2, true, false);
 
@@ -90,8 +93,18 @@ class PlayScene extends Phaser.Scene {
 	// 	this.startGame();
 	// }
 
-	downDuration(pointer){
-		console.log(pointer);
+	saveClickDuration(){
+		let l = this.durations.length;
+		let y = this.startPointArrayText;
+		if(l){
+			y = (l * 50) + y;
+		}
+		let t = 'Click Duration: ' + this.balloons[0].lastActivePointerDuration;
+		this.durations.push(this.getNewScoreText(50, y, t));
+	}
+
+	getNewScoreText(x, y, text = ''){
+		return this.add.text(x, y, text, {fontFamily: 'Arial Black', fontSize: 30, color: '#c51b7d'});
 	}
 
 	update(time, delta) {
@@ -99,6 +112,6 @@ class PlayScene extends Phaser.Scene {
 			this.duration = this.balloons[0].lastActivePointerDuration;
 			this.balloons[0].update(time, delta);
 		}
-		this.scoreText.setText(' Click Duration: ' + this.duration);
+		this.scoreText.setText(' Last Click Duration: ' + this.duration);
 	}
 }
