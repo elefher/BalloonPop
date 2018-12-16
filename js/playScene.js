@@ -20,7 +20,7 @@ class PlayScene extends Phaser.Scene {
 
 		this.balloons = [];
 		this.clickDuration = 0;
-
+		this.totalClickDuration = 0;
 
 		this.scoreText = this.add.text(50, 50, '', {fontFamily: 'Arial Black', fontSize: 74, color: '#c51b7d'});
 		this.scoreText.setStroke('#de77ae', 5);
@@ -36,14 +36,14 @@ class PlayScene extends Phaser.Scene {
 	}
 
 	startGame() {
-		var sx = (this.sys.game.config.width) / 3;
 		this.addBalloon((this.sys.game.config.width) / 2, this.sys.game.config.height);
 	}
 
-	addBalloon(x) {
-		if (!x) x = Math.floor(Math.random() * (this.sys.game.config.width - 128)) + 64;
-		var balloon = new Balloon(this, x, this.sys.game.config.height + 128, 'balloon-yellow');
-		balloon.speed = 0.25 + Math.random() + (this.score / 10);
+	addBalloon(x, y) {
+		// if (!x) x = Math.floor(Math.random() * (this.sys.game.config.width - 128)) + 64;
+		let maxScale = 2;
+		var balloon = new Balloon(this, x, y, 'balloon-yellow', maxScale);
+		// balloon.speed = 0.25 + Math.random() + (this.score / 10);
 		this.balloons.push(balloon);
 	}
 
@@ -90,7 +90,12 @@ class PlayScene extends Phaser.Scene {
 	}
 
 	update(time, delta) {
-		this.balloons.forEach(b => b.update(time, delta));
+		// this.balloons.forEach(b => {
+		// 	b.update(time, delta);
+		// });
+		if(this.balloons[0]){
+			this.balloons[0].update(time, delta);
+		}
 		this.scoreText.setText(' Click Duration: ' + this.clickDuration);
 	}
 }

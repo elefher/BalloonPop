@@ -1,11 +1,11 @@
 class Balloon extends Phaser.GameObjects.Sprite {
-	constructor(scene, x,y, key) {
+	constructor(scene, x,y, key, maxScale) {
 		super(scene, x,y, key);
 		scene.add.existing(this);
 		this.setInteractive();
 		this.blowBallon = false;
 		this.scaleVal = 1;
-		this.scaleMax = 2;
+		this.scaleMax = maxScale;
 
 		this.on('pointerdown', e => {
 			this.blowBallon = true;
